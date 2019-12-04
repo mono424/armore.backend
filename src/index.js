@@ -3,7 +3,7 @@ const { registerRoutes } = require("./register-routes");
 
 const init = async () => {
   const server = Hapi.server({
-    port: 8084,
+    port: 80,
     host: "localhost"
   });
 
