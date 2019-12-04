@@ -3,6 +3,8 @@ const fs = require("fs");
 const nanoid = require("nanoid");
 const { exec } = require("child_process");
 
+const TIMEOUT = 10000;
+
 module.exports = {
   deleteFile(path) {
     try {
@@ -20,6 +22,13 @@ module.exports = {
     });
 
     return new Promise((res) => {
+      let isRunning = true;
+      const tid = setTimeout(() => {
+        if (isRunning) {
+          data.push("* Killing Process [Timeout] *");
+          proc.kill("SIGINT");
+        }
+      }, TIMEOUT)
       let data = [];
       proc.stderr.on("data", e => {
         data.push(e);
@@ -28,6 +37,8 @@ module.exports = {
         data.push(e);
       });
       proc.on("exit", async () => {
+        clearTimeout(tid);
+        isRunning = false;
         data.push("* Program ended *");
         this.deleteFile(fullInput);
         res(data);
