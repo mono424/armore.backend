@@ -1,4 +1,7 @@
 FROM ubuntu:18.04
+
+ARG TLS_CERT=NONE
+ARG TLS_KEY=NONE
 RUN apt-get update && apt-get install -y \
   sudo \
   curl \
@@ -14,5 +17,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
+# RUN echo "${TLS_KEY}" >> ./cert/server.key
+# RUN echo "${TLS_CERT}" >> ./cert/server.cert
 EXPOSE 443
 CMD [ "npm", "start" ]
