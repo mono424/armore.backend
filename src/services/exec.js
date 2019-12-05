@@ -3,7 +3,7 @@ const fs = require("fs");
 const random = require("./random");
 const { exec } = require("child_process");
 
-const CONSISTENT_STORAGE_PATH = "/home/node/app";
+const CONSISTENT_STORAGE_PATH = "./";
 const EMULATOR_COMMAND = "qemu-arm";
 const TIMEOUT = 10000;
 
