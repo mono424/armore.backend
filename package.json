@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 src/index",
+    "start": "pm2 start src/index",
     "start-direct": "node src/index"
   },
   "author": "",
