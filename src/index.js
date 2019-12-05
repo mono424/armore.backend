@@ -1,3 +1,4 @@
+const fs = require('fs');
 const Hapi = require("@hapi/hapi");
 const { registerRoutes } = require("./register-routes");
 
@@ -16,8 +17,8 @@ const init = async () => {
         "https://armore.khadimfall.com"
       ],
       tls: {
-        key: Fs.readFileSync(`${__dirname}/../cert/server.key`),
-        cert: Fs.readFileSync(`${__dirname}/../cert/server.cert`)
+        key: fs.readFileSync(`${__dirname}/../cert/server.key`),
+        cert: fs.readFileSync(`${__dirname}/../cert/server.cert`)
       }
     }
   });
