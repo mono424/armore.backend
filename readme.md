@@ -7,13 +7,13 @@ We need to assamble some ARM Assambler, this little program should make it easie
 ```
 $ git pull https://github.com/mono424/armore.backend.git
 $ docker build ./
-$ docker run -d -p 443:443 -v ${pwd}:/mounted-data armore.backend:latest
+$ docker run -d -p 443:443 --rm -it -v $(pwd):/mounted-data armore.backend:latest
 ```
 
 #### With access to container registry
 ```
 $ docker pull gcr.io/armore-e8de7/armore.backend:latest
-$ docker run -d -p 443:443 -v ${pwd}:/mounted-data gcr.io/armore-e8de7/armore.backend:latest
+$ docker run -d -p 443:443 --rm -it -v $(pwd):/mounted-data gcr.io/armore-e8de7/armore.backend:latest
 ```
 
 

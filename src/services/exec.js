@@ -18,6 +18,12 @@ module.exports = {
     const fullInput = `${CONSISTENT_STORAGE_PATH}/${input}`;
     fs.writeFileSync(fullInput, content);
 
+    try {
+      execSync(`chmod +x "${fullInput}"`);
+    } catch (error) {
+      console.log('chmod +x failed', error);
+    }
+
     return new Promise((res) => {
       exec(`${EMULATOR_COMMAND} "./${input}"`, {
         cwd: `${CONSISTENT_STORAGE_PATH}`,
