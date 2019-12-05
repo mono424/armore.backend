@@ -3,5 +3,8 @@ steps:
   entrypoint: 'bash'
   args: [ 
           '-c',
-          'docker build -t gcr.io/armore-e8de7/armore.backend:$SHORT_SHA -f Dockerfile --tag armore.backend:latest --build-arg TLS_CERT=$$_TLS_CERT --build-arg TLS_KEY=$$_TLS_KEY .' 
+          'docker build gcr.io/armore-e8de7/armore.backend:latest -f Dockerfile --build-arg TLS_CERT=$$_TLS_CERT --build-arg TLS_KEY=$$_TLS_KEY .' 
         ]
+
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/armore-e8de7/armore.backend:latest']
