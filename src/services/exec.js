@@ -2,7 +2,7 @@ const fs = require("fs");
 const random = require("./random");
 const { exec, execSync } = require("child_process");
 
-const CONSISTENT_STORAGE_PATH = "/mounted-data";
+const CONSISTENT_STORAGE_PATH = "./temp";
 const EMULATOR_COMMAND = "qemu-arm";
 const TIMEOUT = 10000;
 
