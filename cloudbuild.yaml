@@ -3,5 +3,5 @@ steps:
   entrypoint: 'bash'
   args: [ 
           '-c',
-          'docker build -t gcr.io/armore-e8de7/armore.backend:latest -f Dockerfile --build-arg TLS_CERT=$$_TLS_CERT TLS_KEY=$$_TLS_KEY' 
+          'docker build -t gcr.io/armore-e8de7/armore.backend:latest -f Dockerfile --build-arg TLS_CERT=$$_TLS_CERT --build-arg TLS_KEY=$$_TLS_KEY' 
         ]
