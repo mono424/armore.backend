@@ -1,0 +1,11 @@
+version: "2"
+services:
+  api:
+    build: "./"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    ports:
+    - '80:8080'
+    command: "npm start"
