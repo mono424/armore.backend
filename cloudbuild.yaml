@@ -3,12 +3,9 @@ steps:
   entrypoint: 'bash'
   args: [ 
           '-c',
-          'docker build -t gcr.io/$PROJECT_ID/appengine/ts-cloudbuild-secrets-example:latest -f Dockerfile --build-arg TLS_CERT=$$TLS_CERT TLS_KEY=$$TLS_KEY .' 
+          'docker build -t gcr.io/$PROJECT_ID/armore.backend:latest -f Dockerfile --build-arg TLS_CERT=$$TLS_CERT TLS_KEY=$$TLS_KEY .' 
         ]
   secretEnv: ['TLS_CERT', 'TLS_KEY']     
-# Push Images       
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/appengine/ts-cloudbuild-secrets-example:latest'] 
   
 secrets:
 - kmsKeyName: projects/vmi-integration/locations/global/keyRings/vmi-integration-secrets/cryptoKeys/armore-backend
