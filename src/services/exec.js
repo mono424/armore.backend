@@ -1,8 +1,9 @@
 const boom = require("@hapi/boom");
 const fs = require("fs");
-const nanoid = require("nanoid");
-const { exec } = require("child_process");
+const random = require("./random");
+const { exec, execSync } = require("child_process");
 
+const EMULATOR_COMMAND = "qemu-arm";
 const TIMEOUT = 10000;
 
 module.exports = {
@@ -13,32 +14,19 @@ module.exports = {
   },
 
   run(content) {
-    const input = nanoid();
+    const input = random.fileName();
     const fullInput = `${__dirname}/../../temp/${input}`;
     fs.writeFileSync(fullInput, content);
-    
-    const proc = exec("qemu-arm ./" + input, {
-      cwd: `${__dirname}/../../temp`
-    });
 
     return new Promise((res) => {
-      let isRunning = true;
-      const tid = setTimeout(() => {
-        if (isRunning) {
-          data.push("* Killing Process [Timeout] *");
-          proc.kill("SIGINT");
-        }
-      }, TIMEOUT)
-      let data = [];
-      proc.stderr.on("data", e => {
-        data.push(e);
-      });
-      proc.stdout.on("data", e => {
-        data.push(e);
-      });
-      proc.on("exit", async () => {
-        clearTimeout(tid);
-        isRunning = false;
+      const proc = exec(`${EMULATOR_COMMAND} "./${input}"`, {
+        cwd: `${__dirname}/../../temp`,
+        timeout: TIMEOUT
+      }, (err, stdout, stderr) => {
+        const data = [];
+        if (err) data.push(err.killed ? '* Timeout *' : `Program exited with code ${err.code}`);
+        if (stdout) stdout.split("\n").forEach(l => data.push(l));
+        if (stderr) stderr.split("\n").forEach(l => data.push(l));
         data.push("* Program ended *");
         this.deleteFile(fullInput);
         res(data);

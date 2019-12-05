@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index"
+    "start": "pm2 src/index",
+    "start-direct": "node src/index"
   },
   "author": "",
   "license": "ISC",
@@ -12,6 +13,7 @@
     "@hapi/boom": "^8.0.1",
     "@hapi/hapi": "^18.4.0",
     "hapi-cors": "^1.0.3",
-    "nanoid": "^2.1.7"
+    "nanoid": "^2.1.7",
+    "pm2": "^4.2.0"
   }
 }

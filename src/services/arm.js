@@ -1,6 +1,6 @@
 const boom = require("@hapi/boom");
 const fs = require("fs");
-const nanoid = require("nanoid");
+const random = require("./random");
 const { exec } = require("child_process");
 
 const COMMANDS = {
@@ -28,23 +28,25 @@ module.exports = {
   },
 
   assamble(content) {
-    const output = nanoid() + ".o";
+    const rndId = random.fileName();
+    const output = rndId + ".o";
     const fullOutput = `${__dirname}/../../temp/${output}`;
-
+    
     const proc = exec(COMMANDS.ASSAMBLE(content, output), {
       cwd: `${__dirname}/../../temp`
     });
 
     return new Promise((res, rj) => {
       let err = false;
-      proc.stderr.on("data", ({ err: e }) => {
+      proc.stderr.on("data", (e) => {
+        console.warn(e);
         err = e;
       });
       proc.on("close", async () => {
         const content = this.returnAndDeleteFile(fullOutput);
 
-        if (!content && err) {
-          rj(boom.internal(err));
+        if (!content) {
+          rj(boom.badRequest(err || 'Unknown error.'));
         } else {
           res(content);
         }
@@ -53,11 +55,12 @@ module.exports = {
   },
 
   link(content) {
-    const input = nanoid() + ".o";
+    const rndId = random.fileName();
+    const input = rndId + ".o";
     const fullInput = `${__dirname}/../../temp/${input}`;
     fs.writeFileSync(fullInput, content);
 
-    const output = nanoid() + "";
+    const output = rndId;
     const fullOutput = `${__dirname}/../../temp/${output}`;
 
     const proc = exec(COMMANDS.LINK(input, output), {
@@ -66,16 +69,16 @@ module.exports = {
 
     return new Promise((res, rj) => {
       let err = false;
-      proc.stderr.on("data", ({ err: e }) => {
+      proc.stderr.on("data", (e) => {
+        console.warn(e);
         err = e;
       });
       proc.on("close", () => {
         this.deleteFile(fullInput);
         const content = this.returnAndDeleteFile(fullOutput);
 
-        if (!content && err) {
-          console.log(err);
-          rj(boom.internal(err));
+        if (!content) {
+          rj(boom.internal(err || "Unknown error."));
         } else {
           res(content);
         }
