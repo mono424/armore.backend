@@ -11,10 +11,12 @@ const init = async () => {
     tls: IS_PROD
       ? {
           key:
-            Buffer.from(process.env.TLS_KEY, "base64").toString("utf8") ||
+            process.env.TLS_KEY ?
+            Buffer.from(process.env.TLS_KEY, "base64").toString() :
             fs.readFileSync(`${__dirname}/../cert/server.key`),
           cert:
-            Buffer.from(process.env.TLS_CERT, "base64").toString("utf8") ||
+            process.env.TLS_CERT ?
+            Buffer.from(process.env.TLS_CERT, "base64").toString() :
             fs.readFileSync(`${__dirname}/../cert/server.cert`)
         }
       : undefined
