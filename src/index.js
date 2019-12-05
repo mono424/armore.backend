@@ -10,8 +10,12 @@ const init = async () => {
     host: "0.0.0.0",
     tls: IS_PROD
       ? {
-          key: process.env.TLS_KEY || fs.readFileSync(`${__dirname}/../cert/server.key`),
-          cert: process.env.TLS_CERT || fs.readFileSync(`${__dirname}/../cert/server.cert`)
+          key:
+            Buffer.from(process.env.TLS_KEY, "base64").toString("utf8") ||
+            fs.readFileSync(`${__dirname}/../cert/server.key`),
+          cert:
+            Buffer.from(process.env.TLS_CERT, "base64").toString("utf8") ||
+            fs.readFileSync(`${__dirname}/../cert/server.cert`)
         }
       : undefined
   });
