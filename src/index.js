@@ -2,24 +2,29 @@ const fs = require('fs');
 const Hapi = require("@hapi/hapi");
 const { registerRoutes } = require("./register-routes");
 
+const IS_PROD = process.env.NODE_ENV === 'production';
+
 const init = async () => {
   const server = Hapi.server({
-    port: 443,
+    port: process.env.PORT || (IS_PROD ? 443 : 80),
     host: "0.0.0.0",
-    tls: {
-      key: fs.readFileSync(`${__dirname}/../cert/server.key`),
-      cert: fs.readFileSync(`${__dirname}/../cert/server.cert`)
-    }
+    tls: IS_PROD
+      ? {
+          key: process.env.TLS_KEY || fs.readFileSync(`${__dirname}/../cert/server.key`),
+          cert: process.env.TLS_CERT || fs.readFileSync(`${__dirname}/../cert/server.cert`)
+        }
+      : undefined
   });
 
   await server.register({
     plugin: require("hapi-cors"),
     options: {
-      origins: [
-        "https://armore-e8de7.web.app",
-        "https://armore-e8de7.firebaseapp.com",
-        "https://armore.khadimfall.com"
-      ]
+      origins:
+        IS_PROD ? [
+          ("https://armore-e8de7.web.app",
+          "https://armore-e8de7.firebaseapp.com",
+          "https://armore.khadimfall.com")
+        ] : ['*']
     }
   });
 

@@ -4,8 +4,9 @@ services:
     build: "./"
     environment:
       - NODE_ENV=production
+      - PORT=4443
     volumes:
       - ./:/home/node/app
     ports:
-    - '80:8080'
+    - '443:4443'
     command: "npm start"

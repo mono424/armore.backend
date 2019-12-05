@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start node src/index.js",
-    "start-direct": "node src/index"
+    "start": "node src/index",
+    "start-prod": "pm2 start node src/index.js"
   },
   "author": "",
   "license": "ISC",
