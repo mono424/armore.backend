@@ -2,7 +2,6 @@ const fs = require("fs");
 const random = require("./random");
 const { exec, execSync } = require("child_process");
 
-const CONSISTENT_STORAGE_PATH = "./temp";
 const EMULATOR_COMMAND = "qemu-arm";
 const TIMEOUT = 10000;
 
@@ -15,7 +14,7 @@ module.exports = {
 
   run(content) {
     const input = random.fileName();
-    const fullInput = `${CONSISTENT_STORAGE_PATH}/${input}`;
+    const fullInput = `./temp/${input}`;
     fs.writeFileSync(fullInput, content);
 
     try {
@@ -26,7 +25,7 @@ module.exports = {
 
     return new Promise((res) => {
       exec(`${EMULATOR_COMMAND} "./${input}"`, {
-        cwd: `${CONSISTENT_STORAGE_PATH}`,
+        cwd: `./temp`,
         timeout: TIMEOUT
       }, (err, stdout, stderr) => {
         const data = [];
