@@ -10,7 +10,15 @@ const init = async () => {
   await server.register({
     plugin: require("hapi-cors"),
     options: {
-      origins: ["*"]
+      origins: [
+        "https://armore-e8de7.web.app",
+        "https://armore-e8de7.firebaseapp.com",
+        "https://armore.khadimfall.com"
+      ],
+      tls: {
+        key: Fs.readFileSync(`${__dirname}/../cert/server.key`),
+        cert: Fs.readFileSync(`${__dirname}/../cert/server.cert`)
+      }
     }
   });
 
