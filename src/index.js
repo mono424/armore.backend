@@ -5,7 +5,11 @@ const { registerRoutes } = require("./register-routes");
 const init = async () => {
   const server = Hapi.server({
     port: 443,
-    host: "0.0.0.0"
+    host: "0.0.0.0",
+    tls: {
+      key: fs.readFileSync(`${__dirname}/../cert/server.key`),
+      cert: fs.readFileSync(`${__dirname}/../cert/server.cert`)
+    }
   });
 
   await server.register({
@@ -15,11 +19,7 @@ const init = async () => {
         "https://armore-e8de7.web.app",
         "https://armore-e8de7.firebaseapp.com",
         "https://armore.khadimfall.com"
-      ],
-      tls: {
-        key: fs.readFileSync(`${__dirname}/../cert/server.key`),
-        cert: fs.readFileSync(`${__dirname}/../cert/server.cert`)
-      }
+      ]
     }
   });
 
