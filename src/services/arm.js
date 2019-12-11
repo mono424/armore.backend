@@ -78,7 +78,7 @@ module.exports = {
         const content = this.returnAndDeleteFile(fullOutput);
 
         if (!content) {
-          rj(boom.internal(err || "Unknown error."));
+          rj(boom.badRequest(err || "Unknown error."));
         } else {
           res(content);
         }
