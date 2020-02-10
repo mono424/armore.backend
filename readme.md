@@ -5,9 +5,9 @@ We need to assamble some ARM Assambler, this little program should make it easie
 
 #### Without access to container registry
 ```
-$ git pull https://github.com/mono424/armore.backend.git
-$ docker build ./
-$ docker run -d -p 443:443 armore.backend:latest
+$ git clone https://github.com/mono424/armore.backend.git
+$ docker build -t armore.backend:latest .
+$ docker run -d -p 8080:443 armore.backend:latest
 ```
 
 #### With access to container registry
